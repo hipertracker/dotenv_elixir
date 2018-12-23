@@ -45,14 +45,16 @@ Now, add the `:dotenv` application to your applications list when running in the
 def application do
   [
     mod: { YourApp, [] },
-    applications: app_list(Mix.env)
+    applications: [
+      # ...
+      if Mix.env == :dev do
+        :dotenv
+      else
+        nil
+      end
+    ]
   ]
 end
-
-defp app_list(:dev), do: [:dotenv | app_list]
-defp app_list(_), do: app_list
-defp app_list, do: [...]
-```
 
 Now, when you load your app in a console with `iex -S mix`, your environment variables will be set automatically.
 
